@@ -26,6 +26,7 @@ import {
   stopContainer,
 } from './container-runtime.js';
 import { detectAuthMode } from './credential-proxy.js';
+import { readEnvFile } from './env.js';
 import { validateAdditionalMounts } from './mount-security.js';
 import { RegisteredGroup } from './types.js';
 
@@ -246,6 +247,14 @@ function buildContainerArgs(
     args.push('-e', 'ANTHROPIC_API_KEY=placeholder');
   } else {
     args.push('-e', 'CLAUDE_CODE_OAUTH_TOKEN=placeholder');
+  }
+
+  // Pass GitHub token so agents can push branches and create PRs
+  const envSecrets = readEnvFile(['GITHUB_TOKEN']);
+  const ghToken = process.env.GITHUB_TOKEN || envSecrets.GITHUB_TOKEN;
+  if (ghToken) {
+    args.push('-e', `GITHUB_TOKEN=${ghToken}`);
+    args.push('-e', `GH_TOKEN=${ghToken}`);
   }
 
   // Runtime-specific args for host gateway resolution
