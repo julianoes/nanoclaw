@@ -11,4 +11,4 @@ import './discord.js';
 // telegram
 
 // whatsapp
-import './whatsapp.js';
+// import './whatsapp.js';
