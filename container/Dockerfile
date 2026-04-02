@@ -67,6 +67,10 @@ RUN printf '#!/bin/bash\nset -e\ncd /app && npx tsc --outDir /tmp/dist 2>&1 >&2\
 # Set ownership to node user (non-root) for writable directories
 RUN chown -R node:node /workspace && chmod 777 /home/node
 
+# Set default git identity for the agent
+RUN git config --system user.name "BanSiesta" && \
+    git config --system user.email "bansiesta@gmail.com"
+
 # Switch to non-root user (required for --dangerously-skip-permissions)
 USER node
 
