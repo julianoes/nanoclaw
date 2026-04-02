@@ -301,6 +301,28 @@ If a task requires your judgment every time (daily briefings, reminders, reports
 
 If a user wants tasks running more than ~2x daily and a script can't reduce agent wake-ups:
 
+---
+
+## MAVSDK Development
+
+Working directory: `/workspace/group/MAVSDK`
+
+### Workflow for proto-based changes
+
+1. Edit `proto/protos/<plugin>/<plugin>.proto` first
+2. Run `cd cpp && tools/generate_from_protos.sh -b build/debug` to regenerate C++ bindings
+3. Manually implement the logic in `<plugin>_impl.h` / `<plugin>_impl.cpp` (these are NOT overwritten by the generator)
+4. Run `cd cpp && python3 tools/fix_style.py .` before every commit
+5. Build to verify: `cmake --build cpp/build/debug -j$(nproc)`
+6. Run `cd cpp && tools/generate_docs.sh --overwrite` to update API docs (requires doxygen — use docker if not available: `tools/run-docker.sh tools/generate_docs.sh --overwrite`)
+7. Open a separate PR for the proto change in `mavlink/MAVSDK-Proto` (fork at `bansiesta/MAVSDK-Proto`)
+
+### Communication rules
+
+- Only message Julian if CI is failing and you're working on it, or if you need a decision
+- Do NOT message when CI goes green or a push succeeds
+- When fixing CI failures on a PR branch, only push to that specific branch — do not regenerate or reformat unrelated files
+
 - Explain that each wake-up uses API credits and risks rate limits
 - Suggest restructuring with a script that checks the condition first
 - If the user needs an LLM to evaluate data, suggest using an API key with direct Anthropic API calls inside the script

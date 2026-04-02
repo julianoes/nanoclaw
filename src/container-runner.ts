@@ -249,6 +249,13 @@ function buildContainerArgs(
     args.push('-e', 'CLAUDE_CODE_OAUTH_TOKEN=placeholder');
   }
 
+  // Pass model override if configured
+  const envModel = readEnvFile(['CLAUDE_MODEL']);
+  const claudeModel = process.env.CLAUDE_MODEL || envModel.CLAUDE_MODEL;
+  if (claudeModel) {
+    args.push('-e', `CLAUDE_MODEL=${claudeModel}`);
+  }
+
   // Pass GitHub token so agents can push branches and create PRs
   const envSecrets = readEnvFile(['GITHUB_TOKEN']);
   const ghToken = process.env.GITHUB_TOKEN || envSecrets.GITHUB_TOKEN;
