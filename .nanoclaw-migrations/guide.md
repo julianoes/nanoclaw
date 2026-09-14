@@ -2,7 +2,7 @@
 
 Generated: 2026-07-22T10:05:59Z (updated 2026-09-15)
 Base: `641963c1` (upstream at last upgrade)
-HEAD at generation: `8615ae0e`
+HEAD at generation: `c74050f7` (post-upgrade)
 Upstream at generation: `3f9ed607` (nanocoai/nanoclaw, branch `main`)
 
 > **Remote note:** `origin` and `upstream` both point at `nanocoai/nanoclaw`
