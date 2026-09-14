@@ -2,6 +2,8 @@ onlyBuiltDependencies:
   - esbuild
   - protobufjs
   - sharp
+patchedDependencies:
+  '@chat-adapter/discord@4.29.0': patches/@chat-adapter__discord@4.29.0.patch
 
 # Top-level, NOT nested under a `pnpm:` key: pnpm reads a `pnpm:` config block
 # only from package.json. Nested here in pnpm-workspace.yaml the setting is

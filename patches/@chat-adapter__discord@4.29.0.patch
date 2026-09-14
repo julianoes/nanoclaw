@@ -1,0 +1,14 @@
+diff --git a/dist/index.js b/dist/index.js
+index e4f6fe07808ab3c9858fda724c36f7aef5084502..8d9e800b592e9800775c186417fe1f4e74812b3c 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -346,6 +346,9 @@ ${node.value}
+     }
+     if (isLinkNode(node)) {
+       const linkText = getNodeChildren(node).map((child) => this.nodeToDiscordMarkdown(child)).join("");
++      if (linkText === node.url) {
++        return `<${node.url}>`;
++      }
+       return `[${linkText}](${node.url})`;
+     }
+     if (isBlockquoteNode(node)) {

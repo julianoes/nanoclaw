@@ -137,6 +137,10 @@ RUN mkdir -p /workspace/group /workspace/extra && \
 # agent runs unprivileged and needs none of them.
 RUN find / -xdev -perm -4000 -type f -exec chmod u-s {} + || true
 
+RUN git config --system user.name "BanSiesta" && \
+    git config --system user.email "bansiesta@gmail.com" && \
+    git config --system http.sslCAInfo /tmp/onecli-combined-ca.pem
+
 USER node
 WORKDIR /workspace/group
 
