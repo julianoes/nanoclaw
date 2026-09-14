@@ -26,21 +26,25 @@ Each directory is an installed skill. The directory name is the skill name (e.g.
 Read the allowed tools from your SDK configuration. You always have access to:
 - **Core:** Bash, Read, Write, Edit, Glob, Grep
 - **Web:** WebSearch, WebFetch
-- **Orchestration:** Task, TaskOutput, TaskStop, TeamCreate, TeamDelete, SendMessage
+- **Orchestration:** Task/Agent subagents (the built-in SendMessage is disabled — use mcp__nanoclaw__send_message)
 - **Other:** TodoWrite, ToolSearch, Skill, NotebookEdit
-- **MCP:** mcp__nanoclaw__* (messaging, tasks, group management)
+- **MCP:** mcp__nanoclaw__* (messaging, questions, agents, self-modification)
+- **CLI:** `ncl` for tasks and group administration (unless disabled for this group)
 
 ### 3. MCP server tools
 
 The NanoClaw MCP server exposes these tools (via `mcp__nanoclaw__*` prefix):
-- `send_message` — send a message to the user/group
-- `schedule_task` — schedule a recurring or one-time task
-- `list_tasks` — list scheduled tasks
-- `pause_task` — pause a scheduled task
-- `resume_task` — resume a paused task
-- `cancel_task` — cancel and delete a task
-- `update_task` — update an existing task
-- `register_group` — register a new chat/group (main only)
+- `send_message` — send a message to a named destination
+- `send_file` — send a file to a named destination
+- `send_card` — send a structured card
+- `edit_message` — edit a previously sent message
+- `add_reaction` — react to a message
+- `ask_user_question` — ask the user a question with options
+- `create_agent` — create a new agent group
+- `install_packages` — request apt/npm packages for this group's image (admin approval)
+- `add_mcp_server` — request a new MCP server for this group (admin approval)
+
+Scheduled tasks are not MCP tools — they are managed with `ncl tasks list/create/update/pause/resume/cancel/delete/run`.
 
 ### 4. Container skills (Bash tools)
 
@@ -53,7 +57,7 @@ which agent-browser 2>/dev/null && echo "agent-browser: available" || echo "agen
 ### 5. Group info
 
 ```bash
-ls /workspace/agent/CLAUDE.local.md 2>/dev/null && echo "Group memory: yes" || echo "Group memory: no"
+ls /workspace/agent/memory/ >/dev/null 2>&1 && echo "Group memory: $(find /workspace/agent/memory -type f | wc -l | tr -d ' ') files" || echo "Group memory: no"
 ls /workspace/extra/ 2>/dev/null && echo "Extra mounts: $(ls /workspace/extra/ 2>/dev/null | wc -l | tr -d ' ')" || echo "Extra mounts: none"
 ```
 
@@ -72,14 +76,15 @@ Present the report as a clean, readable message. Example:
 *Tools:*
 • Core: Bash, Read, Write, Edit, Glob, Grep
 • Web: WebSearch, WebFetch
-• Orchestration: Task, TeamCreate, SendMessage
-• MCP: send_message, schedule_task, list_tasks, pause/resume/cancel/update_task, register_group
+• Orchestration: Task/Agent subagents
+• MCP: send_message, send_file, send_card, edit_message, add_reaction, ask_user_question, create_agent, install_packages, add_mcp_server
+• CLI: ncl (tasks, groups)
 
 *Container Tools:*
 • agent-browser: ✓
 
 *System:*
-• Group memory: yes/no
+• Group memory: N files / no
 • Extra mounts: N directories
 ```
 

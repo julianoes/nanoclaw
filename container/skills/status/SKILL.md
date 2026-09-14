@@ -35,8 +35,8 @@ Confirm which tool families are available to you:
 
 - **Core:** Bash, Read, Write, Edit, Glob, Grep
 - **Web:** WebSearch, WebFetch
-- **Orchestration:** Task, TaskOutput, TaskStop, TeamCreate, TeamDelete, SendMessage
-- **MCP:** mcp__nanoclaw__* (send_message, schedule_task, list_tasks, pause_task, resume_task, cancel_task, update_task, register_group)
+- **Orchestration:** Task/Agent subagents (the built-in SendMessage is disabled — use mcp__nanoclaw__send_message)
+- **MCP:** mcp__nanoclaw__* (send_message, send_file, send_card, edit_message, add_reaction, ask_user_question, create_agent, install_packages, add_mcp_server)
 
 ### 4. Container utilities
 
@@ -48,13 +48,13 @@ claude --version 2>/dev/null
 
 ### 5. Task snapshot
 
-Use the MCP tool to list tasks:
+Scheduled tasks are managed with `ncl tasks`:
 
-```
-Call mcp__nanoclaw__list_tasks to get scheduled tasks.
+```bash
+ncl tasks list
 ```
 
-If no tasks exist, report "No scheduled tasks."
+If no tasks exist, report "No scheduled tasks." If `ncl` is unavailable (CLI access disabled for this group), report "Tasks: unavailable (ncl disabled)".
 
 ## Report format
 
